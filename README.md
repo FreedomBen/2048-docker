@@ -1,5 +1,7 @@
 # Dockerized 2048!
 
+Dockerized version of https://github.com/mevdschee/2048.c
+
 ## Build
 
 ```sh
