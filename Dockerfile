@@ -1,23 +1,21 @@
-FROM ubuntu:18.04
+FROM registry.access.redhat.com/ubi8/ubi
 
-WORKDIR /2048
+RUN mkdir -p /2048-directory \
+ && dnf update \
+ && dnf install -y wget gcc \
+ && dnf clean all 
 
-# Build from github
-#RUN apt-get update \
-# && apt-get install -y wget build-essential \
-# && wget https://raw.githubusercontent.com/mevdschee/2048.c/master/2048.c \
-# && apt-get clean \
-# && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/ \
-# && gcc -o 2048 2048.c
+RUN groupadd --gid 1000 twentyfortyeight \
+ && adduser --uid 1000 --gid 1000 --home /home/twentyfortyeight twentyfortyeight \
+ && usermod -L twentyfortyeight \
+ && chown twentyfortyeight: /2048-directory
 
-# Build from local file
-RUN apt-get update \
- && apt-get install -y wget build-essential \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/
+USER twentyfortyeight
 
-COPY . /2048
+WORKDIR /2048-directory
+
+COPY --chown=twentyfortyeight:twentyfortyeight 2048.c /2048-directory/
 
 RUN gcc -o 2048 2048.c
 
-CMD /2048/2048
+CMD /2048-directory/2048
