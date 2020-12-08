@@ -1,0 +1,11 @@
+FROM registry.access.redhat.com/ubi8/ubi
+
+RUN mkdir -p /2048-directory \
+ && dnf install -y wget gcc
+
+WORKDIR /2048-directory
+
+RUN wget https://raw.githubusercontent.com/FreedomBen/2048-docker/master/2048.c
+RUN gcc -o 2048 2048.c
+
+CMD /2048-directory/2048

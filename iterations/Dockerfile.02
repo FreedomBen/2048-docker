@@ -1,0 +1,4 @@
+FROM registry.access.redhat.com/ubi8/ubi
+
+RUN wget https://raw.githubusercontent.com/FreedomBen/2048-docker/master/2048.c
+RUN gcc -o 2048 2048.c
